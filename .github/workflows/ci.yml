@@ -1,0 +1,45 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  skeleton-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate bootstrap files
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f README.md
+          test -f LICENCE.md
+          test -f CITATION.cff
+          test -f SNAPSHOT_POLICY.md
+          test -f methodology/README.md
+          test -f harness/README.md
+          test -f harness/run_lme_s.py
+          test -f harness/run_locomo.py
+          test -f harness/scoring/__init__.py
+          test -f examples/anthropic_example.py
+          test -f examples/openai_example.py
+          ! test -f LICENSE  # MIT placeholder removed; CCL v1.0 lives at LICENCE.md
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Syntax-check Python files
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile harness/run_lme_s.py
+          python -m py_compile harness/run_locomo.py
+          python -m py_compile harness/scoring/__init__.py
+          python -m py_compile examples/anthropic_example.py
+          python -m py_compile examples/openai_example.py
+          echo "All Python files syntactically valid."

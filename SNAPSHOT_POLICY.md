@@ -18,7 +18,7 @@ If any of those change, the snapshot version bumps.
 | Field | Value |
 |---|---|
 | Version | `benchmark-snapshot-v1` |
-| Effective from | _(pinned at first public release)_ |
+| Effective from | 2026-05-11 |
 | Status | Live |
 | Published numbers | _(linked from main README on first publication)_ |
 
